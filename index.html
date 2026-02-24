@@ -29,10 +29,8 @@
         /* --- ⚛️ QUANTUM PARTICLE CANVAS --- */
         #particleCanvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -1;
             pointer-events: none;
         }
@@ -44,17 +42,15 @@
             flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 1s ease;
         }
-       .intro-container {
+        .intro-container {
             width: 85%; max-width: 600px; height: 350px;
             border-radius: 25px; border: 2px solid var(--primary);
             overflow: hidden; box-shadow: 0 0 50px rgba(0, 242, 255, 0.3);
-            position: relative;
-            background: #000;
+            position: relative; background: #000;
         }
         #intro-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease, opacity 0.5s ease; }
-       .intro-caption { margin-top: 25px; font-family: 'Orbitron'; color: var(--primary); font-size: 1.4rem; text-align: center; min-height: 40px; }
-        
-       .progress-bar { width: 80%; height: 4px; background: rgba(255,255,255,0.1); margin-top: 20px; border-radius: 10px; overflow: hidden; }
+        .intro-caption { margin-top: 25px; font-family: 'Orbitron'; color: var(--primary); font-size: 1.4rem; text-align: center; min-height: 40px; }
+        .progress-bar { width: 80%; height: 4px; background: rgba(255,255,255,0.1); margin-top: 20px; border-radius: 10px; overflow: hidden; }
         #progress-fill { height: 100%; width: 0%; background: var(--gradient); transition: width 0.3s ease; }
 
         /* --- 🏪 MAIN STORE UI --- */
@@ -62,87 +58,68 @@
         
         header { 
             background: rgba(10, 25, 47, 0.8); 
-            padding: 60px 20px; 
+            padding: 80px 20px; 
             text-align: center; 
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0, 242, 255, 0.2);
         }
         
-       .neon-title { 
-            font-family: 'Orbitron'; 
-            font-size: 3rem; 
-            letter-spacing: 5px; 
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.5));
+        .neon-title { 
+            font-family: 'Orbitron'; font-size: 3.5rem; letter-spacing: 5px; 
+            background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.6));
+            margin: 0;
         }
 
-        /* Typewriter Styling */
-       .typewriter {
-            font-family: 'Orbitron';
-            color: var(--secondary);
-            font-size: 1.2rem;
-            margin-top: 10px;
-            min-height: 24px;
+        .typewriter { font-family: 'Orbitron'; color: var(--secondary); font-size: 1.2rem; margin-top: 15px; min-height: 24px; text-shadow: 0 0 10px var(--secondary); }
+
+        /* --- 🎥 VIDEO SHOWCASE SECTION --- */
+        .video-section { padding: 60px 10%; text-align: center; }
+        .section-title { font-family: 'Orbitron'; color: var(--primary); font-size: 2rem; margin-bottom: 40px; }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
         }
 
-       .app-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-            gap: 30px; 
-            padding: 50px 10%; 
-            perspective: 1000px; /* Added for 3D effect */
-        }
-
-       .app-card { 
-            background: var(--card-bg); 
-            border-radius: 25px; 
-            padding: 30px; 
-            text-align: center; 
-            border: 1px solid rgba(0, 242, 255, 0.1); 
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px;
+            border: 1px solid rgba(0, 242, 255, 0.1);
             backdrop-filter: blur(15px);
-            position: relative;
-            overflow: hidden;
-            /* Updated transition for smoother effects */
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        border-color 0.4s ease, 
-                        box-shadow 0.4s ease;
+            transition: 0.4s;
         }
 
-       .app-card:hover { 
-            border-color: var(--primary); 
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2); 
+        .video-card:hover {
+            transform: scale(1.03);
+            border-color: var(--secondary);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
         }
 
-       .app-icon { width: 80px; height: 80px; border-radius: 18px; margin-bottom: 15px; border: 2px solid var(--primary); }
-       .download-btn { 
-            display: block; 
-            background: var(--gradient); 
-            color: #000; 
-            padding: 12px; 
-            border-radius: 50px; 
-            text-decoration: none; 
-            font-weight: bold; 
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-       .download-btn:hover { letter-spacing: 1px; box-shadow: 0 0 15px var(--primary); }
+        .video-card h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--primary); font-family: 'Orbitron'; }
 
-       .hidden { display: none!important; }
+        iframe {
+            width: 100%;
+            height: 500px; /* Adjusted for Shorts / Vertical layout */
+            border-radius: 12px;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .neon-title { font-size: 2.2rem; }
+            iframe { height: 400px; }
+        }
     </style>
 </head>
 <body>
-
-<audio id="bg-music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-</audio>
 
 <canvas id="particleCanvas"></canvas>
 
 <div id="intro-overlay">
     <div class="intro-container">
-        <img id="intro-img" src="images/act1-gate.png" alt="Loading...">
+        <img id="intro-img" src="images/act1-gate.png" alt="Bismillah">
     </div>
     <div id="intro-caption" class="intro-caption">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
     <div class="progress-bar">
@@ -152,40 +129,49 @@
 
 <div id="main-store">
     <header>
-        <h1 class="neon-title">DigiDapp Store</h1>
+        <h1 class="neon-title">DIGIDAPP SHOWCASE</h1>
         <div class="typewriter" id="typewriter"></div>
-        
-        <div style="margin-top: 30px;">
-            <input type="text" id="app-search" 
-                   style="padding: 15px 25px; width: 50%; border-radius: 50px; border: 1px solid var(--primary); background: rgba(255,255,255,0.05); color: white;" 
-                   placeholder="Search the Quantum Realm..." onkeyup="filterApps()">
-        </div>
     </header>
 
-    <div class="app-grid" id="appGrid">
-        <div class="app-card" data-name="Metaverse Browser">
-            <img src="images/act2-apps.png" class="app-icon" onerror="this.src='https://via.placeholder.com/80/00f2ff'">
-            <h3>Metaverse Browser</h3>
-            <p>Web3 Internet Access</p>
-            <a href="#" class="download-btn">Download Quantum</a>
-        </div>
-        <div class="app-card" data-name="Neon Themes">
-            <img src="images/act3-themes.png" class="app-icon" onerror="this.src='https://via.placeholder.com/80/ff00ff'">
-            <h3>Neon Themes</h3>
-            <p>UI Personalization v2.0</p>
-            <a href="#" class="download-btn">Apply Glow</a>
-        </div>
-        <div class="app-card" data-name="Crown NFT">
-            <img src="images/act5-nfts.png" class="app-icon" onerror="this.src='https://via.placeholder.com/80/ffff00'">
-            <h3>Crown NFT</h3>
-            <p>Verify Ownership</p>
-            <a href="#" class="download-btn">Claim Card</a>
+    <div class="video-section">
+        <h2 class="section-title">Latest Quantum Shorts</h2>
+        
+        <div class="video-grid">
+            <div class="video-card">
+                <h2>Short 1</h2>
+                <iframe src="https://www.youtube.com/embed/C9vVfdbHlOc" allowfullscreen></iframe>
+            </div>
+
+            <div class="video-card">
+                <h2>Short 2</h2>
+                <iframe src="https://www.youtube.com/embed/ew6xDX0C0rA" allowfullscreen></iframe>
+            </div>
+
+            <div class="video-card">
+                <h2>Short 3</h2>
+                <iframe src="https://www.youtube.com/embed/Kb43t6u2mvM" allowfullscreen></iframe>
+            </div>
+
+            <div class="video-card">
+                <h2>Short 4</h2>
+                <iframe src="https://www.youtube.com/embed/ldIr14KBILU" allowfullscreen></iframe>
+            </div>
+
+            <div class="video-card">
+                <h2>Short 5</h2>
+                <iframe src="https://www.youtube.com/embed/ZxnfQyfW-MA" allowfullscreen></iframe>
+            </div>
+
+            <div class="video-card">
+                <h2>Short 6</h2>
+                <iframe src="https://www.youtube.com/embed/EIGRkDBXbH8" allowfullscreen></iframe>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    /* --- 1. PARTICLE SYSTEM --- */
+    /* ⚛️ Particle System */
     class ParticleSystem {
         constructor() {
             this.canvas = document.getElementById('particleCanvas');
@@ -196,24 +182,21 @@
             this.init();
             this.animate();
         }
-        resize() {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
-        }
+        resize() { this.canvas.width = window.innerWidth; this.canvas.height = window.innerHeight; }
         init() {
-            for (let i = 0; i < 80; i++) {
+            for (let i = 0; i < 70; i++) {
                 this.particles.push({
                     x: Math.random() * this.canvas.width,
                     y: Math.random() * this.canvas.height,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
-                    size: Math.random() * 2
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    size: Math.random() * 1.5
                 });
             }
         }
         animate() {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.ctx.fillStyle = 'rgba(0, 242, 255, 0.5)';
+            this.ctx.fillStyle = 'rgba(0, 242, 255, 0.4)';
             this.particles.forEach(p => {
                 p.x += p.vx; p.y += p.vy;
                 if(p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
@@ -226,15 +209,11 @@
         }
     }
 
-    /* --- 2. 7-ACT INTRO LOGIC --- */
+    /* 🎬 Intro Sequence */
     const acts = [
         { img: 'images/act1-gate.png', text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ✨' },
-        { img: 'images/act2-apps.png', text: 'Unlocking Utility... ⚙️' },
-        { img: 'images/act3-themes.png', text: 'Personalizing Identity... 🌈' },
-        { img: 'images/act4-stickers.png', text: 'Freedom of Expression... 😊' },
-        { img: 'images/act5-nfts.png', text: 'True Ownership... 👑' },
-        { img: 'images/act6-creators.png', text: 'Joining the Circle... 🌐' },
-        { img: 'images/act7-heart.png', text: 'Built with Love 💖' }
+        { img: 'images/act2-apps.png', text: 'Unlocking Potential... ⚙️' },
+        { img: 'images/act7-heart.png', text: 'Welcome to the Future 💖' }
     ];
 
     let currentAct = 0;
@@ -242,32 +221,29 @@
         if (currentAct < acts.length) {
             const img = document.getElementById('intro-img');
             img.style.opacity = '0';
-            
             setTimeout(() => {
                 img.src = acts[currentAct].img;
                 img.style.opacity = '1';
                 document.getElementById('intro-caption').innerText = acts[currentAct].text;
                 document.getElementById('progress-fill').style.width = ((currentAct + 1) / acts.length * 100) + '%';
                 currentAct++;
-                setTimeout(runIntro, 1300);
-            }, 200);
+                setTimeout(runIntro, 1500);
+            }, 300);
         } else {
             document.getElementById('intro-overlay').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('intro-overlay').style.display = 'none';
-                const store = document.getElementById('main-store');
-                store.style.display = 'block';
+                document.getElementById('main-store').style.display = 'block';
                 setTimeout(() => { 
-                    store.style.opacity = '1'; 
+                    document.getElementById('main-store').style.opacity = '1'; 
                     startTypewriter();
-                    document.getElementById('bg-music').play().catch(() => {});
                 }, 100);
             }, 1000);
         }
     }
 
-    /* --- 3. TYPEWRITER --- */
-    const typeTexts = ["Freelancer & Creator", "Physics Enthusiast", "Decentralizing the Web"];
+    /* ✍️ Typewriter */
+    const typeTexts = ["Content Creator", "Physics Enthusiast", "Digital Architect"];
     let textIdx = 0, charIdx = 0;
     function startTypewriter() {
         const target = document.getElementById('typewriter');
@@ -277,14 +253,14 @@
             setTimeout(startTypewriter, 100);
         } else {
             setTimeout(() => {
-                target.innerHTML = "";
-                charIdx = 0;
+                target.innerHTML = ""; charIdx = 0;
                 textIdx = (textIdx + 1) % typeTexts.length;
                 startTypewriter();
             }, 2000);
         }
     }
 
-    /* --- 4. SEARCH FILTER --- */
-    function filterApps() {
-        let input = document.getElementById('app-search').value
+    window.onload = () => { new ParticleSystem(); runIntro(); };
+</script>
+</body>
+</html>
