@@ -37,30 +37,30 @@
             background: #000;
         }
         #intro-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
-        .intro-caption { margin-top: 25px; font-family: 'Orbitron'; color: var(--primary); font-size: 1.4rem; text-align: center; }
+        .intro-caption { margin-top: 25px; font-family: 'Orbitron'; color: var(--primary); font-size: 1.4rem; text-align: center; min-height: 40px;}
         .progress-bar { width: 80%; height: 4px; background: rgba(255,255,255,0.1); margin-top: 20px; border-radius: 10px; overflow: hidden; }
         #progress-fill { height: 100%; width: 0%; background: var(--gradient); transition: width 0.3s ease; }
 
         /* 🏪 Main UI */
         #main-content { display: none; opacity: 0; transition: opacity 1.5s ease; }
         header { padding: 80px 20px; text-align: center; backdrop-filter: blur(10px); }
-        .neon-title { font-family: 'Orbitron'; font-size: 3rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .typewriter { font-family: 'Orbitron'; color: var(--secondary); margin-top: 10px; min-height: 24px; }
+        .neon-title { font-family: 'Orbitron'; font-size: 3rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px var(--primary));}
+        .typewriter { font-family: 'Orbitron'; color: var(--secondary); margin-top: 10px; min-height: 24px; text-shadow: 0 0 8px var(--secondary);}
 
         /* 🌌 Constellation Badges */
         .badge-banner { padding: 40px 10%; background: rgba(0, 242, 255, 0.05); border-top: 1px solid rgba(0, 242, 255, 0.1); margin: 40px 0; }
         .constellation-container { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
-        .badge-item { text-align: center; transition: 0.3s; }
+        .badge-item { text-align: center; transition: 0.3s; cursor: help; }
         .badge-item:hover { transform: scale(1.1); }
         .badge-icon { font-size: 2rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
 
         /* 🎥 Video Gallery */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; padding: 40px 10%; }
         .video-card { background: var(--card-bg); border-radius: 20px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.4s; }
-        .video-card:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); }
+        .video-card:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); transform: translateY(-5px); }
         iframe { width: 100%; height: 500px; border-radius: 12px; border: none; }
 
-        .section-title { font-family: 'Orbitron'; text-align: center; color: var(--primary); margin-bottom: 30px; }
+        .section-title { font-family: 'Orbitron'; text-align: center; color: var(--primary); margin-bottom: 30px; letter-spacing: 2px;}
     </style>
 </head>
 <body>
@@ -75,29 +75,29 @@
 
 <div id="main-content">
     <header>
-        <h1 class="neon-title">DIGIDAPP STORE</h1>
+        <h1 class="neon-title">DIGIDAPP SHOWCASE</h1>
         <div class="typewriter" id="typewriter"></div>
     </header>
 
     <section class="badge-banner">
         <h2 class="section-title">Ceremonial Emblems</h2>
         <div class="constellation-container">
-            <div class="badge-item"><div class="badge-icon"><i class="fas fa-shield-halved"></i></div><div>Champion</div></div>
-            <div class="badge-item"><div class="badge-icon"><i class="fas fa-hammer"></i></div><div>Architect</div></div>
-            <div class="badge-item"><div class="badge-icon"><i class="fas fa-scroll"></i></div><div>Packager</div></div>
-            <div class="badge-item"><div class="badge-icon"><i class="fas fa-robot"></i></div><div>Companion</div></div>
-            <div class="badge-item"><div class="badge-icon"><i class="fas fa-compass"></i></div><div>Navigator</div></div>
+            <div class="badge-item" title="Digital Independence Champion"><div class="badge-icon"><i class="fas fa-shield-halved"></i></div><div>Champion</div></div>
+            <div class="badge-item" title="Foundational Badge Architect"><div class="badge-icon"><i class="fas fa-hammer"></i></div><div>Architect</div></div>
+            <div class="badge-item" title="Legacy Packager"><div class="badge-icon"><i class="fas fa-scroll"></i></div><div>Packager</div></div>
+            <div class="badge-item" title="Creative Companion"><div class="badge-icon"><i class="fas fa-robot"></i></div><div>Companion</div></div>
+            <div class="badge-item" title="Knowledge Navigator"><div class="badge-icon"><i class="fas fa-compass"></i></div><div>Navigator</div></div>
         </div>
     </section>
 
-    <h2 class="section-title">Latest Shorts</h2>
+    <h2 class="section-title">Latest Quantum Shorts</h2>
     <div class="video-grid">
-        <div class="video-card"><iframe src="https://www.youtube.com/embed/C9vVfdbHlOc"></iframe></div>
-        <div class="video-card"><iframe src="https://www.youtube.com/embed/ew6xDX0C0rA"></iframe></div>
-        <div class="video-card"><iframe src="https://www.youtube.com/embed/Kb43t6u2mvM"></iframe></div>
-        <div class="video-card"><iframe src="https://www.youtube.com/embed/ldIr14KBILU"></iframe></div>
-        <div class="video-card"><iframe src="https://www.youtube.com/embed/ZxnfQyfW-MA"></iframe></div>
-        <div class="video-card"><iframe src="https://www.youtube.com/embed/EIGRkDBXbH8"></iframe></div>
+        <div class="video-card"><h2>Short 1</h2><iframe src="https://www.youtube.com/embed/C9vVfdbHlOc"></iframe></div>
+        <div class="video-card"><h2>Short 2</h2><iframe src="https://www.youtube.com/embed/ew6xDX0C0rA"></iframe></div>
+        <div class="video-card"><h2>Short 3</h2><iframe src="https://www.youtube.com/embed/Kb43t6u2mvM"></iframe></div>
+        <div class="video-card"><h2>Short 4</h2><iframe src="https://www.youtube.com/embed/ldIr14KBILU"></iframe></div>
+        <div class="video-card"><h2>Short 5</h2><iframe src="https://www.youtube.com/embed/ZxnfQyfW-MA"></iframe></div>
+        <div class="video-card"><h2>Short 6</h2><iframe src="https://www.youtube.com/embed/EIGRkDBXbH8"></iframe></div>
     </div>
 </div>
 
@@ -122,20 +122,25 @@
     }
     anim();
 
-    // 7-Act Intro
+    // 7-Act Intro Logic
     const acts = [
         {img:'images/act1-gate.png', txt:'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'},
-        {img:'images/act2-apps.png', txt:'Digital Realm Loading...'},
-        {img:'images/act5-nfts.png', txt:'Securing Ownership...'},
+        {img:'images/act2-apps.png', txt:'Unlocking Potential... ⚙️'},
+        {img:'images/act5-nfts.png', txt:'Securing Ownership... 👑'},
         {img:'images/act7-heart.png', txt:'Built with Love 💖'}
     ];
     let cur = 0;
     function runIntro() {
         if(cur < acts.length) {
-            document.getElementById('intro-img').src = acts[cur].img;
-            document.getElementById('intro-caption').innerText = acts[cur].txt;
-            document.getElementById('progress-fill').style.width = ((cur+1)/acts.length*100)+'%';
-            cur++; setTimeout(runIntro, 1500);
+            const img = document.getElementById('intro-img');
+            img.style.opacity = '0';
+            setTimeout(() => {
+                img.src = acts[cur].img;
+                img.style.opacity = '1';
+                document.getElementById('intro-caption').innerText = acts[cur].txt;
+                document.getElementById('progress-fill').style.width = ((cur+1)/acts.length*100)+'%';
+                cur++; setTimeout(runIntro, 1500);
+            }, 300);
         } else {
             document.getElementById('intro-overlay').style.opacity = '0';
             setTimeout(() => {
