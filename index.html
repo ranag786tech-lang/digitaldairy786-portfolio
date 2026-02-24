@@ -44,7 +44,7 @@
             flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 1s ease;
         }
-        .intro-container {
+       .intro-container {
             width: 85%; max-width: 600px; height: 350px;
             border-radius: 25px; border: 2px solid var(--primary);
             overflow: hidden; box-shadow: 0 0 50px rgba(0, 242, 255, 0.3);
@@ -52,9 +52,9 @@
             background: #000;
         }
         #intro-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease, opacity 0.5s ease; }
-        .intro-caption { margin-top: 25px; font-family: 'Orbitron'; color: var(--primary); font-size: 1.4rem; text-align: center; min-height: 40px; }
+       .intro-caption { margin-top: 25px; font-family: 'Orbitron'; color: var(--primary); font-size: 1.4rem; text-align: center; min-height: 40px; }
         
-        .progress-bar { width: 80%; height: 4px; background: rgba(255,255,255,0.1); margin-top: 20px; border-radius: 10px; overflow: hidden; }
+       .progress-bar { width: 80%; height: 4px; background: rgba(255,255,255,0.1); margin-top: 20px; border-radius: 10px; overflow: hidden; }
         #progress-fill { height: 100%; width: 0%; background: var(--gradient); transition: width 0.3s ease; }
 
         /* --- 🏪 MAIN STORE UI --- */
@@ -68,7 +68,7 @@
             border-bottom: 1px solid rgba(0, 242, 255, 0.2);
         }
         
-        .neon-title { 
+       .neon-title { 
             font-family: 'Orbitron'; 
             font-size: 3rem; 
             letter-spacing: 5px; 
@@ -79,7 +79,7 @@
         }
 
         /* Typewriter Styling */
-        .typewriter {
+       .typewriter {
             font-family: 'Orbitron';
             color: var(--secondary);
             font-size: 1.2rem;
@@ -87,33 +87,36 @@
             min-height: 24px;
         }
 
-        .app-grid { 
+       .app-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
             gap: 30px; 
             padding: 50px 10%; 
+            perspective: 1000px; /* Added for 3D effect */
         }
 
-        .app-card { 
+       .app-card { 
             background: var(--card-bg); 
             border-radius: 25px; 
             padding: 30px; 
             text-align: center; 
             border: 1px solid rgba(0, 242, 255, 0.1); 
-            transition: 0.4s; 
             backdrop-filter: blur(15px);
             position: relative;
             overflow: hidden;
+            /* Updated transition for smoother effects */
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        border-color 0.4s ease, 
+                        box-shadow 0.4s ease;
         }
 
-        .app-card:hover { 
-            transform: translateY(-10px); 
+       .app-card:hover { 
             border-color: var(--primary); 
             box-shadow: 0 0 30px rgba(0, 242, 255, 0.2); 
         }
 
-        .app-icon { width: 80px; height: 80px; border-radius: 18px; margin-bottom: 15px; border: 2px solid var(--primary); }
-        .download-btn { 
+       .app-icon { width: 80px; height: 80px; border-radius: 18px; margin-bottom: 15px; border: 2px solid var(--primary); }
+       .download-btn { 
             display: block; 
             background: var(--gradient); 
             color: #000; 
@@ -124,9 +127,9 @@
             margin-top: 20px;
             transition: 0.3s;
         }
-        .download-btn:hover { letter-spacing: 1px; box-shadow: 0 0 15px var(--primary); }
+       .download-btn:hover { letter-spacing: 1px; box-shadow: 0 0 15px var(--primary); }
 
-        .hidden { display: none !important; }
+       .hidden { display: none!important; }
     </style>
 </head>
 <body>
@@ -284,19 +287,4 @@
 
     /* --- 4. SEARCH FILTER --- */
     function filterApps() {
-        let input = document.getElementById('app-search').value.toLowerCase();
-        let cards = document.querySelectorAll('.app-card');
-        cards.forEach(card => {
-            let name = card.getAttribute('data-name').toLowerCase();
-            card.style.display = name.includes(input) ? "block" : "none";
-        });
-    }
-
-    // Initialize
-    window.onload = () => {
-        new ParticleSystem();
-        runIntro();
-    };
-</script>
-</body>
-</html>
+        let input = document.getElementById('app-search').value
