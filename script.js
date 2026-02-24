@@ -709,3 +709,14 @@ window.addEventListener('error', (e) => {
 window.addEventListener('unhandledrejection', (e) => {
     console.error('Unhandled promise rejection:', e.reason);
 });
+// Example logic to play music after Act VII
+function finishIntro() {
+    const intro = document.getElementById('introSequence');
+    const music = document.getElementById('bg-music');
+    intro.style.opacity = '0';
+    setTimeout(() => {
+        intro.style.display = 'none';
+        if(music) music.play();
+    }, 1000);
+}
+
