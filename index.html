@@ -18,24 +18,12 @@
             --gradient: linear-gradient(135deg, #00f2ff 0%, #ff00ff 50%, #ffff00 100%);
         }
 
-        body { 
-            background: var(--bg); 
-            color: white; 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
-            overflow-x: hidden; 
-        }
+        body { background: var(--bg); color: white; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
 
-        /* --- ⚛️ QUANTUM PARTICLE CANVAS --- */
-        #particleCanvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
+        /* ⚛️ Particle Canvas */
+        #particleCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
-        /* --- 🎬 7-ACT INTRO OVERLAY --- */
+        /* 🎬 7-Act Intro */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 9999; display: flex;
@@ -46,71 +34,33 @@
             width: 85%; max-width: 600px; height: 350px;
             border-radius: 25px; border: 2px solid var(--primary);
             overflow: hidden; box-shadow: 0 0 50px rgba(0, 242, 255, 0.3);
-            position: relative; background: #000;
+            background: #000;
         }
-        #intro-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease, opacity 0.5s ease; }
-        .intro-caption { margin-top: 25px; font-family: 'Orbitron'; color: var(--primary); font-size: 1.4rem; text-align: center; min-height: 40px; }
+        #intro-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
+        .intro-caption { margin-top: 25px; font-family: 'Orbitron'; color: var(--primary); font-size: 1.4rem; text-align: center; }
         .progress-bar { width: 80%; height: 4px; background: rgba(255,255,255,0.1); margin-top: 20px; border-radius: 10px; overflow: hidden; }
         #progress-fill { height: 100%; width: 0%; background: var(--gradient); transition: width 0.3s ease; }
 
-        /* --- 🏪 MAIN STORE UI --- */
-        #main-store { display: none; opacity: 0; transition: opacity 1.5s ease; }
-        
-        header { 
-            background: rgba(10, 25, 47, 0.8); 
-            padding: 80px 20px; 
-            text-align: center; 
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
-        }
-        
-        .neon-title { 
-            font-family: 'Orbitron'; font-size: 3.5rem; letter-spacing: 5px; 
-            background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.6));
-            margin: 0;
-        }
+        /* 🏪 Main UI */
+        #main-content { display: none; opacity: 0; transition: opacity 1.5s ease; }
+        header { padding: 80px 20px; text-align: center; backdrop-filter: blur(10px); }
+        .neon-title { font-family: 'Orbitron'; font-size: 3rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .typewriter { font-family: 'Orbitron'; color: var(--secondary); margin-top: 10px; min-height: 24px; }
 
-        .typewriter { font-family: 'Orbitron'; color: var(--secondary); font-size: 1.2rem; margin-top: 15px; min-height: 24px; text-shadow: 0 0 10px var(--secondary); }
+        /* 🌌 Constellation Badges */
+        .badge-banner { padding: 40px 10%; background: rgba(0, 242, 255, 0.05); border-top: 1px solid rgba(0, 242, 255, 0.1); margin: 40px 0; }
+        .constellation-container { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
+        .badge-item { text-align: center; transition: 0.3s; }
+        .badge-item:hover { transform: scale(1.1); }
+        .badge-icon { font-size: 2rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
 
-        /* --- 🎥 VIDEO SHOWCASE SECTION --- */
-        .video-section { padding: 60px 10%; text-align: center; }
-        .section-title { font-family: 'Orbitron'; color: var(--primary); font-size: 2rem; margin-bottom: 40px; }
+        /* 🎥 Video Gallery */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; padding: 40px 10%; }
+        .video-card { background: var(--card-bg); border-radius: 20px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.4s; }
+        .video-card:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); }
+        iframe { width: 100%; height: 500px; border-radius: 12px; border: none; }
 
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .video-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 15px;
-            border: 1px solid rgba(0, 242, 255, 0.1);
-            backdrop-filter: blur(15px);
-            transition: 0.4s;
-        }
-
-        .video-card:hover {
-            transform: scale(1.03);
-            border-color: var(--secondary);
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2);
-        }
-
-        .video-card h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--primary); font-family: 'Orbitron'; }
-
-        iframe {
-            width: 100%;
-            height: 500px; /* Adjusted for Shorts / Vertical layout */
-            border-radius: 12px;
-            border: none;
-        }
-
-        @media (max-width: 768px) {
-            .neon-title { font-size: 2.2rem; }
-            iframe { height: 400px; }
-        }
+        .section-title { font-family: 'Orbitron'; text-align: center; color: var(--primary); margin-bottom: 30px; }
     </style>
 </head>
 <body>
@@ -118,149 +68,93 @@
 <canvas id="particleCanvas"></canvas>
 
 <div id="intro-overlay">
-    <div class="intro-container">
-        <img id="intro-img" src="images/act1-gate.png" alt="Bismillah">
-    </div>
+    <div class="intro-container"><img id="intro-img" src="images/act1-gate.png"></div>
     <div id="intro-caption" class="intro-caption">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-    <div class="progress-bar">
-        <div id="progress-fill"></div>
-    </div>
+    <div class="progress-bar"><div id="progress-fill"></div></div>
 </div>
 
-<div id="main-store">
+<div id="main-content">
     <header>
-        <h1 class="neon-title">DIGIDAPP SHOWCASE</h1>
+        <h1 class="neon-title">DIGIDAPP STORE</h1>
         <div class="typewriter" id="typewriter"></div>
     </header>
 
-    <div class="video-section">
-        <h2 class="section-title">Latest Quantum Shorts</h2>
-        
-        <div class="video-grid">
-            <div class="video-card">
-                <h2>Short 1</h2>
-                <iframe src="https://www.youtube.com/embed/C9vVfdbHlOc" allowfullscreen></iframe>
-            </div>
-
-            <div class="video-card">
-                <h2>Short 2</h2>
-                <iframe src="https://www.youtube.com/embed/ew6xDX0C0rA" allowfullscreen></iframe>
-            </div>
-
-            <div class="video-card">
-                <h2>Short 3</h2>
-                <iframe src="https://www.youtube.com/embed/Kb43t6u2mvM" allowfullscreen></iframe>
-            </div>
-
-            <div class="video-card">
-                <h2>Short 4</h2>
-                <iframe src="https://www.youtube.com/embed/ldIr14KBILU" allowfullscreen></iframe>
-            </div>
-
-            <div class="video-card">
-                <h2>Short 5</h2>
-                <iframe src="https://www.youtube.com/embed/ZxnfQyfW-MA" allowfullscreen></iframe>
-            </div>
-
-            <div class="video-card">
-                <h2>Short 6</h2>
-                <iframe src="https://www.youtube.com/embed/EIGRkDBXbH8" allowfullscreen></iframe>
-            </div>
+    <section class="badge-banner">
+        <h2 class="section-title">Ceremonial Emblems</h2>
+        <div class="constellation-container">
+            <div class="badge-item"><div class="badge-icon"><i class="fas fa-shield-halved"></i></div><div>Champion</div></div>
+            <div class="badge-item"><div class="badge-icon"><i class="fas fa-hammer"></i></div><div>Architect</div></div>
+            <div class="badge-item"><div class="badge-icon"><i class="fas fa-scroll"></i></div><div>Packager</div></div>
+            <div class="badge-item"><div class="badge-icon"><i class="fas fa-robot"></i></div><div>Companion</div></div>
+            <div class="badge-item"><div class="badge-icon"><i class="fas fa-compass"></i></div><div>Navigator</div></div>
         </div>
+    </section>
+
+    <h2 class="section-title">Latest Shorts</h2>
+    <div class="video-grid">
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/C9vVfdbHlOc"></iframe></div>
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/ew6xDX0C0rA"></iframe></div>
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/Kb43t6u2mvM"></iframe></div>
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/ldIr14KBILU"></iframe></div>
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/ZxnfQyfW-MA"></iframe></div>
+        <div class="video-card"><iframe src="https://www.youtube.com/embed/EIGRkDBXbH8"></iframe></div>
     </div>
 </div>
 
 <script>
-    /* ⚛️ Particle System */
-    class ParticleSystem {
-        constructor() {
-            this.canvas = document.getElementById('particleCanvas');
-            this.ctx = this.canvas.getContext('2d');
-            this.particles = [];
-            this.resize();
-            window.addEventListener('resize', () => this.resize());
-            this.init();
-            this.animate();
-        }
-        resize() { this.canvas.width = window.innerWidth; this.canvas.height = window.innerHeight; }
-        init() {
-            for (let i = 0; i < 70; i++) {
-                this.particles.push({
-                    x: Math.random() * this.canvas.width,
-                    y: Math.random() * this.canvas.height,
-                    vx: (Math.random() - 0.5) * 0.4,
-                    vy: (Math.random() - 0.5) * 0.4,
-                    size: Math.random() * 1.5
-                });
-            }
-        }
-        animate() {
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.ctx.fillStyle = 'rgba(0, 242, 255, 0.4)';
-            this.particles.forEach(p => {
-                p.x += p.vx; p.y += p.vy;
-                if(p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
-                if(p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
-                this.ctx.beginPath();
-                this.ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-                this.ctx.fill();
-            });
-            requestAnimationFrame(() => this.animate());
-        }
+    // Particle Engine
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.onresize = resize; resize();
+    for(let i=0; i<80; i++) particles.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5, s:Math.random()*2});
+    function anim() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = '#00f2ff88';
+        particles.forEach(p => {
+            p.x+=p.vx; p.y+=p.vy;
+            if(p.x<0||p.x>canvas.width) p.vx*=-1;
+            if(p.y<0||p.y>canvas.height) p.vy*=-1;
+            ctx.beginPath(); ctx.arc(p.x,p.y,p.s,0,7); ctx.fill();
+        });
+        requestAnimationFrame(anim);
     }
+    anim();
 
-    /* 🎬 Intro Sequence */
+    // 7-Act Intro
     const acts = [
-        { img: 'images/act1-gate.png', text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ✨' },
-        { img: 'images/act2-apps.png', text: 'Unlocking Potential... ⚙️' },
-        { img: 'images/act7-heart.png', text: 'Welcome to the Future 💖' }
+        {img:'images/act1-gate.png', txt:'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'},
+        {img:'images/act2-apps.png', txt:'Digital Realm Loading...'},
+        {img:'images/act5-nfts.png', txt:'Securing Ownership...'},
+        {img:'images/act7-heart.png', txt:'Built with Love 💖'}
     ];
-
-    let currentAct = 0;
+    let cur = 0;
     function runIntro() {
-        if (currentAct < acts.length) {
-            const img = document.getElementById('intro-img');
-            img.style.opacity = '0';
-            setTimeout(() => {
-                img.src = acts[currentAct].img;
-                img.style.opacity = '1';
-                document.getElementById('intro-caption').innerText = acts[currentAct].text;
-                document.getElementById('progress-fill').style.width = ((currentAct + 1) / acts.length * 100) + '%';
-                currentAct++;
-                setTimeout(runIntro, 1500);
-            }, 300);
+        if(cur < acts.length) {
+            document.getElementById('intro-img').src = acts[cur].img;
+            document.getElementById('intro-caption').innerText = acts[cur].txt;
+            document.getElementById('progress-fill').style.width = ((cur+1)/acts.length*100)+'%';
+            cur++; setTimeout(runIntro, 1500);
         } else {
             document.getElementById('intro-overlay').style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('intro-overlay').style.display = 'none';
-                document.getElementById('main-store').style.display = 'block';
-                setTimeout(() => { 
-                    document.getElementById('main-store').style.opacity = '1'; 
-                    startTypewriter();
-                }, 100);
+                document.getElementById('intro-overlay').style.display='none';
+                document.getElementById('main-content').style.display='block';
+                setTimeout(()=> { document.getElementById('main-content').style.opacity='1'; startType(); }, 100);
             }, 1000);
         }
     }
+    runIntro();
 
-    /* ✍️ Typewriter */
-    const typeTexts = ["Content Creator", "Physics Enthusiast", "Digital Architect"];
-    let textIdx = 0, charIdx = 0;
-    function startTypewriter() {
-        const target = document.getElementById('typewriter');
-        if (charIdx < typeTexts[textIdx].length) {
-            target.innerHTML += typeTexts[textIdx].charAt(charIdx);
-            charIdx++;
-            setTimeout(startTypewriter, 100);
-        } else {
-            setTimeout(() => {
-                target.innerHTML = ""; charIdx = 0;
-                textIdx = (textIdx + 1) % typeTexts.length;
-                startTypewriter();
-            }, 2000);
-        }
+    // Typewriter
+    const words = ["Physics Enthusiast", "Content Creator", "Digital Architect"];
+    let wI=0, cI=0;
+    function startType() {
+        const t = document.getElementById('typewriter');
+        if(cI < words[wI].length) { t.innerHTML += words[wI][cI++]; setTimeout(startType, 100); }
+        else { setTimeout(() => { t.innerHTML=""; cI=0; wI=(wI+1)%words.length; startType(); }, 2000); }
     }
-
-    window.onload = () => { new ParticleSystem(); runIntro(); };
 </script>
 </body>
 </html>
