@@ -1,7 +1,8 @@
 :root {
     --nexus-gold: #d4af37;
     --quantum-blue: #00f2ff;
-    --bg-dark: #0a0a0a;
+    --bg-dark: #070707;
+    --terminal-green: #0f0;
 }
 
 body {
@@ -14,15 +15,54 @@ body {
 
 #nexus-header {
     border-bottom: 2px solid var(--nexus-gold);
-    padding: 20px;
+    padding: 30px;
     text-align: center;
-    box-shadow: 0 0 15px var(--nexus-gold);
+    background: linear-gradient(to bottom, #111, #070707);
+}
+
+.glitch-text {
+    color: var(--nexus-gold);
+    text-shadow: 2px 2px 10px rgba(212, 175, 55, 0.5);
+    letter-spacing: 5px;
 }
 
 .status-bar {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--quantum-blue);
-    text-transform: uppercase;
+}
+
+.pulse {
+    animation: pulse-animation 1.5s infinite;
+}
+
+@keyframes pulse-animation {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.terminal-wrapper {
+    width: 80%;
+    margin: 20px auto;
+    border: 1px solid #333;
+}
+
+.terminal-header {
+    background: #222;
+    padding: 5px 15px;
+    font-size: 12px;
+    color: #888;
+}
+
+#command-line {
+    background: #000;
+    color: var(--terminal-green);
+    padding: 15px;
+    width: 100%;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    font-size: 16px;
 }
 
 #portfolio-container {
@@ -30,29 +70,35 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
 }
 
 .project-card {
+    position: relative;
     border: 1px solid #333;
-    padding: 20px;
-    width: 300px;
-    transition: 0.3s;
-    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    width: 280px;
+    background: #111;
+    transition: all 0.4s ease;
+    overflow: hidden;
 }
 
 .project-card:hover {
     border-color: var(--quantum-blue);
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
 }
 
-#command-line {
-    background: #000;
-    color: #0f0;
-    padding: 10px;
-    width: 80%;
-    margin: 20px auto;
-    display: block;
-    border: 1px solid #0f0;
-    outline: none;
+.launch-btn {
+    background: transparent;
+    border: 1px solid var(--nexus-gold);
+    color: var(--nexus-gold);
+    padding: 8px 20px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.launch-btn:hover {
+    background: var(--nexus-gold);
+    color: black;
 }
