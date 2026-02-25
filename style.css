@@ -1,1 +1,58 @@
+:root {
+    --nexus-gold: #d4af37;
+    --quantum-blue: #00f2ff;
+    --bg-dark: #0a0a0a;
+}
 
+body {
+    background-color: var(--bg-dark);
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+#nexus-header {
+    border-bottom: 2px solid var(--nexus-gold);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 15px var(--nexus-gold);
+}
+
+.status-bar {
+    font-size: 12px;
+    color: var(--quantum-blue);
+    text-transform: uppercase;
+}
+
+#portfolio-container {
+    padding: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.project-card {
+    border: 1px solid #333;
+    padding: 20px;
+    width: 300px;
+    transition: 0.3s;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.project-card:hover {
+    border-color: var(--quantum-blue);
+    transform: translateY(-5px);
+}
+
+#command-line {
+    background: #000;
+    color: #0f0;
+    padding: 10px;
+    width: 80%;
+    margin: 20px auto;
+    display: block;
+    border: 1px solid #0f0;
+    outline: none;
+}
