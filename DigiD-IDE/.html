@@ -1,1 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DigiD IDE — Glassmorphism Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan: #00f2ff;
+    --magenta: #ff00c8;
+    --green: #00ff88;
+    --yellow: #ffe000;
+    --red: #ff4444;
+    
+    /* Glassmorphism Variables */
+    --glass-bg: rgba(10, 15, 30, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: blur(16px);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    
+    --font-code: 'JetBrains Mono', monospace;
+    --font-ui: 'Inter', sans-serif;
+    --font-brand: 'Orbitron', sans-serif;
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #02050a;
+    color: #e0e0e0;
+    font-family: var(--font-ui);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* BACKGROUND CANVAS (Sits behind everything) */
+  #canvas-container {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 0;
+  }
+  canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  #glow-canvas { filter: blur(12px); opacity: 0.6; mix-blend-mode: screen; }
+
+  /* APP LAYOUT */
+  #app {
+    position: relative;
+    z-index: 10;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 12px;
+    pointer-events: none; /* Let clicks pass through empty space */
+  }
+
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    box-shadow: var(--glass-shadow);
+    pointer-events: auto; /* Re-enable clicks on panels */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* HEADER */
+  #titlebar {
+    height: 54px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 20px;
+  }
+
+  #logo {
+    font-family: var(--font-brand);
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0,242,255,0.5);
+  }
+  #logo span { color: var(--cyan); }
+
+  .tb-status {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    margin-left: auto;
+  }
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--red); box-shadow: 0 0 10px var(--red);
+  }
+
+  /* WORKSPACE (Grid layout for resizable columns) */
+  #workspace {
+    flex: 1;
+    display: flex;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  /* RESIZERS */
+  .resizer-v {
+    width: 12px; cursor: col-resize; z-index: 20;
+    pointer-events: auto; display: flex; justify-content: center; align-items: center;
+  }
+  .resizer-v::after {
+    content: ''; width: 2px; height: 30px; background: rgba(255,255,255,0.2); border-radius: 2px; transition: 0.2s;
+  }
+  .resizer-v:hover::after, .resizer-v.active::after { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); height: 100%; }
+
+  .resizer-h {
+    height: 12px; cursor: row-resize; z-index: 20;
+    pointer-events: auto; display: flex; justify-content: center; align-items: center;
+  }
+  .resizer-h::after {
+    content: ''; height: 2px; width: 30px; background: rgba(255,255,255,0.2); border-radius: 2px; transition: 0.2s;
+  }
+  .resizer-h:hover::after, .resizer-h.active::after { background: var(--magenta); box-shadow: 0 0 8px var(--magenta); width: 100%; }
+
+
+  /* LEFT COLUMN: EDITOR & CONSOLE */
+  #col-left { width: 45%; display: flex; flex-direction: column; }
+  
+  #editor-wrapper { flex: 70%; display: flex; flex-direction: column; min-height: 100px; }
+  #console-wrapper { flex: 30%; display: flex; flex-direction: column; min-height: 80px; }
+
+  .panel-header {
+    height: 38px; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--glass-border);
+    display: flex; align-items: center; padding: 0 16px; gap: 12px;
+    font-family: var(--font-brand); font-size: 11px; letter-spacing: 1px; color: rgba(255,255,255,0.7);
+  }
+
+  /* Code Editor Internals */
+  #editor-inner { flex: 1; display: flex; position: relative; overflow: hidden; }
+  #line-numbers {
+    width: 40px; background: rgba(0,0,0,0.1); border-right: 1px solid var(--glass-border);
+    padding: 16px 0; color: rgba(255,255,255,0.2); font-family: var(--font-code);
+    font-size: 13px; line-height: 22px; text-align: right; padding-right: 10px; user-select: none;
+  }
+  #code-input, #highlight-layer {
+    position: absolute; top: 0; left: 40px; right: 0; bottom: 0;
+    padding: 16px; font-family: var(--font-code); font-size: 13px; line-height: 22px;
+    white-space: pre; overflow: auto; tab-size: 2;
+  }
+  #code-input {
+    background: transparent; color: transparent; /* Text hidden, caret visible */
+    caret-color: var(--cyan); border: none; outline: none; resize: none; z-index: 2;
+  }
+  #highlight-layer { color: #e0e0e0; pointer-events: none; z-index: 1; }
+
+  /* Syntax */
+  .kw { color: var(--magenta); } .fn { color: var(--cyan); } .str { color: var(--green); } 
+  .num { color: var(--yellow); } .cmt { color: rgba(255,255,255,0.3); font-style: italic; }
+
+  /* Editor Toolbar */
+  .toolbar {
+    height: 40px; background: rgba(0,0,0,0.1); border-top: 1px solid var(--glass-border);
+    display: flex; align-items: center; padding: 0 12px; gap: 8px;
+  }
+  .btn {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #fff; font-family: var(--font-ui); font-size: 11px; font-weight: 600;
+    padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: 0.2s;
+  }
+  .btn:hover { background: rgba(255,255,255,0.15); border-color: var(--cyan); }
+  .btn.primary { background: rgba(0, 242, 255, 0.15); border-color: var(--cyan); color: var(--cyan); }
+  .btn.primary:hover { background: rgba(0, 242, 255, 0.3); box-shadow: 0 0 12px rgba(0,242,255,0.3); }
+
+  /* Console */
+  #console-output {
+    flex: 1; padding: 12px 16px; font-family: var(--font-code); font-size: 12px;
+    overflow-y: auto; color: #a0aab5; line-height: 1.6;
+  }
+  .log-row { margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 4px; }
+  .log-warn { color: var(--yellow); }
+  .log-error { color: var(--red); }
+  .log-meta { color: var(--cyan); opacity: 0.7; margin-right: 8px; user-select: none; }
+
+  /* CENTER COLUMN: CANVAS HUD (Transparent) */
+  #col-center {
+    width: 25%; display: flex; flex-direction: column; justify-content: space-between;
+    pointer-events: none; padding: 20px;
+  }
+  .hud-box {
+    background: rgba(10, 15, 30, 0.2); backdrop-filter: blur(4px);
+    border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px;
+    pointer-events: auto; text-align: center;
+  }
+  .hud-title { font-family: var(--font-brand); color: var(--cyan); font-size: 12px; letter-spacing: 2px; margin-bottom: 8px; }
+  .hud-stats { font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+  .hud-stats span { color: #fff; font-family: var(--font-code); }
+
+  /* RIGHT COLUMN: AI CHAT */
+  #col-right { width: 30%; display: flex; flex-direction: column; }
+  #chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  
+  .msg { padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.5; max-width: 90%; }
+  .msg.ai { align-self: flex-start; background: rgba(0,242,255,0.1); border: 1px solid rgba(0,242,255,0.2); }
+  .msg.user { align-self: flex-end; background: rgba(255,0,200,0.1); border: 1px solid rgba(255,0,200,0.2); }
+  .msg.system { align-self: center; background: rgba(255,255,255,0.05); font-size: 11px; font-family: var(--font-brand); text-align: center; max-width: 100%;}
+
+  #chat-input-area { padding: 16px; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); }
+  #chat-input {
+    width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
+    border-radius: 8px; color: #fff; padding: 12px; font-family: var(--font-ui);
+    resize: none; outline: none; min-height: 44px; transition: 0.2s;
+  }
+  #chat-input:focus { border-color: var(--magenta); box-shadow: 0 0 10px rgba(255,0,200,0.2); }
+
+  /* Scrollbars */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,242,255,0.5); }
+</style>
+</head>
+<body>
+
+<div id="canvas-container">
+  <canvas id="nexus-canvas"></canvas>
+  <canvas id="glow-canvas"></canvas>
+</div>
+
+<div id="app">
+  <header id="titlebar" class="glass-panel">
+    <div id="logo">DigiD<span>IDE</span></div>
+    <div style="font-size: 12px; color: rgba(255,255,255,0.5);">Glassmorphism Edition</div>
+    <div class="tb-status">
+      <div class="status-dot" id="ai-dot"></div>
+      <span id="ai-status-text" style="color:var(--red)">AI OFFLINE</span>
+    </div>
+    <button class="btn" onclick="clearConsole()">Clear Logs</button>
+  </header>
+
+  <div id="workspace">
+    
+    <div id="col-left">
+      <div id="editor-wrapper" class="glass-panel">
+        <div class="panel-header">📝 MAIN.JS</div>
+        <div id="editor-inner">
+          <div id="line-numbers">1</div>
+          <div id="highlight-layer"></div>
+          <textarea id="code-input" spellcheck="false">// Welcome to DigiD IDE
+// Glassmorphism + Resizable Panels + Real Console
+
+const analyzeData = (data) => {
+  console.log("Starting analysis...");
+  if (!data) {
+    console.error("No data provided!");
+    return;
+  }
+  
+  const result = data.map(x => x * 2);
+  console.log("Analysis complete. Result:", result);
+  return result;
+};
+
+// Click RUN to see output in the console below!
+analyzeData([10, 20, 30, 40]);
+</textarea>
+        </div>
+        <div class="toolbar">
+          <button class="btn primary" onclick="runCode()">▶ RUN CODE</button>
+          <button class="btn" onclick="triggerSupernova()">⚡ SUPERNOVA</button>
+        </div>
+      </div>
+
+      <div class="resizer-h" id="resizer-h"></div>
+
+      <div id="console-wrapper" class="glass-panel">
+        <div class="panel-header" style="height:30px; font-size:10px;">TERMINAL // CONSOLE</div>
+        <div id="console-output">
+          <div class="log-row system"><span class="log-meta">sys</span> IDE Initialized. Intercepting console logs...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="resizer-v" id="resizer-v1"></div>
+
+    <div id="col-center">
+      <div class="hud-box">
+        <div class="hud-title">NEXUS ENGINE</div>
+        <div class="hud-stats">
+          Nodes: <span id="stat-nodes">75</span><br>
+          FPS: <span id="stat-fps">60</span><br>
+          Status: <span style="color:var(--green)">Active</span>
+        </div>
+      </div>
+      <div class="hud-box" style="opacity: 0.5;">
+        <div class="hud-title">VISUALIZER</div>
+        <div style="font-size:10px; color:#aaa;">Background acts as live canvas.<br>Drag borders to resize panels.</div>
+      </div>
+    </div>
+
+    <div class="resizer-v" id="resizer-v2"></div>
+
+    <div id="col-right" class="glass-panel">
+      <div class="panel-header">🤖 AI COPILOT</div>
+      <div id="chat-messages">
+        <div class="msg system">SESSION STARTED</div>
+        <div class="msg ai">
+          <strong>DigiD AI</strong><br><br>
+          Welcome to the new glass environment. The background is fully interactive.<br><br>
+          Try resizing the panels, or hit <strong>Run Code</strong> to see the integrated terminal in action!
+        </div>
+      </div>
+      <div id="chat-input-area">
+        <textarea id="chat-input" placeholder="Ask AI to write code or explain..."></textarea>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// 1. RESIZABLE PANELS LOGIC
+// ═══════════════════════════════════════════
+const resizerH = document.getElementById('resizer-h');
+const colLeft = document.getElementById('col-left');
+const editorWrap = document.getElementById('editor-wrapper');
+const consoleWrap = document.getElementById('console-wrapper');
+
+const resizerV1 = document.getElementById('resizer-v1');
+const resizerV2 = document.getElementById('resizer-v2');
+const colCenter = document.getElementById('col-center');
+const colRight = document.getElementById('col-right');
+
+let isResizingH = false;
+let isResizingV1 = false;
+let isResizingV2 = false;
+
+// Horizontal (Editor / Console)
+resizerH.addEventListener('mousedown', () => { isResizingH = true; resizerH.classList.add('active'); });
+// Vertical 1 (Left / Center)
+resizerV1.addEventListener('mousedown', () => { isResizingV1 = true; resizerV1.classList.add('active'); });
+// Vertical 2 (Center / Right)
+resizerV2.addEventListener('mousedown', () => { isResizingV2 = true; resizerV2.classList.add('active'); });
+
+window.addEventListener('mousemove', (e) => {
+  if (isResizingH) {
+    const containerTop = colLeft.getBoundingClientRect().top;
+    const totalHeight = colLeft.clientHeight - 12; // minus resizer gap
+    const newEditorHeight = e.clientY - containerTop;
+    const percentage = Math.max(10, Math.min(90, (newEditorHeight / totalHeight) * 100));
+    editorWrap.style.flex = `${percentage}%`;
+    consoleWrap.style.flex = `${100 - percentage}%`;
+  }
+  
+  if (isResizingV1) {
+    const totalWidth = document.getElementById('workspace').clientWidth;
+    const newLeftWidth = e.clientX - 12; // approximate padding
+    const percentage = Math.max(15, Math.min(60, (newLeftWidth / totalWidth) * 100));
+    colLeft.style.width = `${percentage}%`;
+    // Adjust center to fill gap implicitly
+  }
+
+  if (isResizingV2) {
+    const totalWidth = document.getElementById('workspace').clientWidth;
+    const rightEdge = document.body.clientWidth - e.clientX - 12;
+    const percentage = Math.max(15, Math.min(50, (rightEdge / totalWidth) * 100));
+    colRight.style.width = `${percentage}%`;
+  }
+});
+
+window.addEventListener('mouseup', () => {
+  isResizingH = false; isResizingV1 = false; isResizingV2 = false;
+  resizerH.classList.remove('active');
+  resizerV1.classList.remove('active');
+  resizerV2.classList.remove('active');
+});
+
+// ═══════════════════════════════════════════
+// 2. REAL CONSOLE INTERCEPTOR
+// ═══════════════════════════════════════════
+const consoleEl = document.getElementById('console-output');
+
+function formatLogArg(arg) {
+  if (typeof arg === 'object') return JSON.stringify(arg, null, 2);
+  return String(arg);
+}
+
+function appendToConsole(type, args) {
+  const msg = Array.from(args).map(formatLogArg).join(' ');
+  const div = document.createElement('div');
+  div.className = `log-row log-${type}`;
+  
+  // Escape HTML but preserve line breaks
+  const safeMsg = msg.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g, '<br>');
+  
+  div.innerHTML = `<span class="log-meta">${type}</span> ${safeMsg}`;
+  consoleEl.appendChild(div);
+  consoleEl.scrollTop = consoleEl.scrollHeight;
+}
+
+// Override native console
+const originalLog = console.log;
+const originalWarn = console.warn;
+const originalError = console.error;
+
+console.log = function(...args) { originalLog(...args); appendToConsole('log', args); };
+console.warn = function(...args) { originalWarn(...args); appendToConsole('warn', args); };
+console.error = function(...args) { originalError(...args); appendToConsole('error', args); };
+
+function clearConsole() {
+  consoleEl.innerHTML = '<div class="log-row system"><span class="log-meta">sys</span> Console cleared.</div>';
+}
+
+function runCode() {
+  clearConsole();
+  const code = document.getElementById('code-input').value;
+  try {
+    // Evaluate in global scope
+    const func = new Function(code);
+    func();
+    // Flash background slightly on success
+    document.getElementById('canvas-container').style.filter = 'brightness(1.5)';
+    setTimeout(() => document.getElementById('canvas-container').style.filter = 'none', 200);
+  } catch (err) {
+    console.error(err.name + ": " + err.message);
+  }
+}
+
+// ═══════════════════════════════════════════
+// 3. EDITOR HIGHLIGHTING (Ported)
+// ═══════════════════════════════════════════
+const codeInput = document.getElementById('code-input');
+const highlightLayer = document.getElementById('highlight-layer');
+const lineNumbers = document.getElementById('line-numbers');
+
+const jsRules = [
+  { re: /\/\/.*/g, cls: 'cmt' },
+  { re: /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`/g, cls: 'str' },
+  { re: /\b(function|const|let|var|if|else|for|while|return|class|new|import|export|async|await|try|catch)\b/g, cls: 'kw' },
+  { re: /\b(console|Math|Array|Object|String|Number|Boolean|Promise)\b/g, cls: 'kw' },
+  { re: /\b\d+\.?\d*\b/g, cls: 'num' },
+  { re: /\b([a-zA-Z_$][a-zA-Z0-9_$]*)\s*(?=\()/g, cls: 'fn' },
+];
+
+function updateEditor() {
+  const code = codeInput.value;
+  let highlighted = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  
+  // Simple greedy replace for mockup
+  jsRules.forEach(r => {
+    highlighted = highlighted.replace(r.re, match => `<span class="${r.cls}">${match}</span>`);
+  });
+  
+  highlightLayer.innerHTML = highlighted;
+  
+  // Sync scrolling
+  highlightLayer.scrollTop = codeInput.scrollTop;
+  highlightLayer.scrollLeft = codeInput.scrollLeft;
+  
+  const lines = code.split('\n').length;
+  lineNumbers.innerHTML = Array.from({length: lines}, (_, i) => i+1).join('<br>');
+  lineNumbers.scrollTop = codeInput.scrollTop;
+}
+
+codeInput.addEventListener('input', updateEditor);
+codeInput.addEventListener('scroll', updateEditor);
+// Tab key support
+codeInput.addEventListener('keydown', e => {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const s = codeInput.selectionStart;
+    const v = codeInput.value;
+    codeInput.value = v.slice(0, s) + '  ' + v.slice(codeInput.selectionEnd);
+    codeInput.selectionStart = codeInput.selectionEnd = s + 2;
+    updateEditor();
+  }
+});
+
+updateEditor();
+
+// ═══════════════════════════════════════════
+// 4. BACKGROUND NEXUS ENGINE
+// ═══════════════════════════════════════════
+const nCanvas = document.getElementById('nexus-canvas');
+const nCtx = nCanvas.getContext('2d');
+let NW, NH;
+let nodes = [];
+
+function resizeCanvas() {
+  NW = nCanvas.width = window.innerWidth;
+  NH = nCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+class Node {
+  constructor() {
+    this.x = Math.random() * NW;
+    this.y = Math.random() * NH;
+    this.vx = (Math.random() - 0.5) * 1;
+    this.vy = (Math.random() - 0.5) * 1;
+    this.r = Math.random() * 2 + 1.5;
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > NW) this.vx *= -1;
+    if (this.y < 0 || this.y > NH) this.vy *= -1;
+  }
+  draw(ctx) {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = '#00f2ff';
+    ctx.fill();
+  }
+}
+
+for(let i=0; i<80; i++) nodes.push(new Node());
+
+function drawConnections() {
+  nCtx.lineWidth = 0.5;
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = dx*dx + dy*dy;
+      if (dist < 20000) {
+        nCtx.beginPath();
+        nCtx.strokeStyle = `rgba(0, 242, 255, ${1 - dist/20000})`;
+        nCtx.moveTo(nodes[i].x, nodes[i].y);
+        nCtx.lineTo(nodes[j].x, nodes[j].y);
+        nCtx.stroke();
+      }
+    }
+  }
+}
+
+let tick = 0;
+function loop() {
+  nCtx.clearRect(0, 0, NW, NH);
+  nodes.forEach(n => { n.update(); n.draw(nCtx); });
+  drawConnections();
+  
+  if(tick % 60 === 0) {
+    document.getElementById('stat-nodes').textContent = nodes.length;
+    // Mock FPS calculation
+    document.getElementById('stat-fps').textContent = Math.floor(Math.random() * 5 + 57); 
+  }
+  tick++;
+  requestAnimationFrame(loop);
+}
+loop();
+
+funct
