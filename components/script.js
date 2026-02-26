@@ -1,27 +1,38 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const cmdInput = document.getElementById('command-line');
-    
-    cmdInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            const cmd = this.value.toLowerCase().trim();
-            executeCommand(cmd);
-            this.value = '';
-        }
-    });
+const commandInput = document.getElementById('command-line');
+const terminalOutput = document.getElementById('terminal-output');
 
-    function executeCommand(command) {
-        if (command === 'help') {
-            alert("Available Commands: \n- 'github': Open Repo \n- 'clear': Reset Terminal \n- 'projects': List all projects");
-        } else if (command === 'github') {
-            window.open('https://github.com', '_blank');
-        } else if (command === 'projects') {
-            alert("1. Digital 786 \n2. Alpha-Omega Quantum");
-        } else if (command === 'clear') {
-            alert("System Rebooting...");
-        } else {
-            console.log("Unknown command: " + command);
-        }
+commandInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        const command = e.target.value.toLowerCase().trim();
+        processCommand(command);
+        e.target.value = ''; // Input clear kar dein
+    }
+});
+
+function processCommand(cmd) {
+    let response = "";
+
+    if (cmd === 'help') {
+        response = "Available Commands: <br> - <b>status</b>: Check system health <br> - <b>786</b>: Access Digital archives <br> - <b>clear</b>: Clean terminal";
+    } else if (cmd === 'status') {
+        response = "<span style='color: #0f0;'>SYSTEM: ONLINE</span><br>LATENCY: 12ms<br>ENCRYPTION: AES-256 ACTIVE";
+    } else if (cmd === '786') {
+        response = "<span style='color: #d4af37;'>Redirecting to Digital 786 Hub...</span>";
+        setTimeout(() => {
+            window.location.href = 'modules/digital786/index.html';
+        }, 1500);
+    } else if (cmd === 'clear') {
+        terminalOutput.innerHTML = '';
+        return;
+    } else {
+        response = `<span style='color: red;'>Command not found: ${cmd}</span>`;
     }
 
-    console.log("DG Universe: Nexus Core Initialized.");
-});
+    const newLine = document.createElement('p');
+    newLine.innerHTML = `> ${cmd}<br>${response}`;
+    terminalOutput.appendChild(newLine);
+    
+    // Auto-scroll to bottom
+    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+}
+
