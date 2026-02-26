@@ -2,12 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Digital 786 Hub</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital 786 | Hub</title>
+    <style>
+        body { background: #050505; color: #d4af37; font-family: 'Courier New', Courier, monospace; text-align: center; margin: 0; padding: 20px; }
+        .header { border-bottom: 2px solid #d4af37; padding-bottom: 20px; margin-bottom: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; max-width: 900px; margin: 0 auto; }
+        .card { border: 1px solid #d4af37; padding: 20px; transition: 0.3s; cursor: pointer; border-radius: 10px; }
+        .card:hover { background: #d4af37; color: #000; box-shadow: 0 0 20px #d4af37; }
+        .status-box { font-size: 0.8rem; margin-top: 40px; color: #0f0; }
+        .btn-back { margin-top: 30px; background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 10px 20px; cursor: pointer; text-decoration: none; display: inline-block; }
+    </style>
 </head>
-<body style="background: #000; color: #d4af37; text-align: center; font-family: sans-serif;">
-    <h1>Welcome to Digital 786</h1>
-    <p>Secure Connection Established.</p>
-    <button onclick="window.location.href='../../index.html'" style="background:none; border:1px solid #d4af37; color:#d4af37; padding:10px; cursor:pointer;">Back to Nexus</button>
+<body>
+
+    <div class="header">
+        <h1>DIGITAL 786 SYSTEM</h1>
+        <p>SECURE PROTOCOL: ACTIVE</p>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>WEB DESIGN</h3>
+            <p>Futuristic Portfolios</p>
+        </div>
+        <div class="card">
+            <h3>TERMUX SETUP</h3>
+            <p>Automation & Tools</p>
+        </div>
+        <div class="card">
+            <h3>SEO RANKING</h3>
+            <p>Digital Visibility</p>
+        </div>
+    </div>
+
+    <div class="status-box">
+        <p>> Connection: Encrypted</p>
+        <p>> User: Authorized</p>
+    </div>
+
+    <a href="../../index.html" class="btn-back">Return to Nexus</a>
+
 </body>
 </html>
