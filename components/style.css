@@ -102,3 +102,38 @@ body {
     background: var(--nexus-gold);
     color: black;
 }
+/* --- Terminal Glow & Scroll Style --- */
+#terminal-output {
+    height: 250px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px;
+    border: 1px solid #0f0;
+    font-family: 'Courier New', monospace;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+    text-align: left;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Custom Scrollbar for Terminal */
+#terminal-output::-webkit-scrollbar {
+    width: 5px;
+}
+
+#terminal-output::-webkit-scrollbar-thumb {
+    background: #0f0;
+    border-radius: 10px;
+}
+
+.command-text {
+    color: #0f0;
+    font-weight: bold;
+}
+
+.response-text {
+    color: #ffffff;
+    margin-bottom: 10px;
+}

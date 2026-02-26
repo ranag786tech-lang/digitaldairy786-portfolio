@@ -1,46 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const commandInput = document.getElementById('command-line');
-    const terminalOutput = document.getElementById('terminal-output');
+    const input = document.getElementById('command-line');
+    const output = document.getElementById('terminal-output');
 
-    if (commandInput) {
-        commandInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                const command = e.target.value.toLowerCase().trim();
-                
-                // Naya line add karein terminal mein
-                const line = document.createElement('p');
-                line.innerHTML = `<span style="color: #0f0;">> ${command}</span>`;
-                terminalOutput.appendChild(line);
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const cmd = input.value.toLowerCase().trim();
+            executeCommand(cmd);
+            input.value = '';
+        }
+    });
 
-                processCommand(command);
-                e.target.value = ''; 
-                terminalOutput.scrollTop = terminalOutput.scrollHeight;
-            }
-        });
+    function executeCommand(cmd) {
+        let p = document.createElement('p');
+        p.innerHTML = `<span style="color: #0f0;">user@DG-Universe:~$</span> ${cmd}`;
+        output.appendChild(p);
+
+        let response = document.createElement('p');
+        
+        if (cmd === 'help') {
+            response.innerHTML = "SYSTEM COMMANDS:<br> - <b>status</b>: Check Quantum Core<br> - <b>786</b>: Enter Digital Hub<br> - <b>hack --all</b>: Start Matrix Stream<br> - <b>clear</b>: Purge Terminal";
+        } 
+        else if (cmd === 'status') {
+            response.innerHTML = "<span style='color: cyan;'>[OK]</span> Quantum Secured Connection<br><span style='color: cyan;'>[OK]</span> Neural Link: Active";
+        }
+        else if (cmd === 'hack --all') {
+            response.innerHTML = "<span style='color: #0f0;'>Initializing Matrix Overload...</span>";
+            startMatrixEffect();
+        }
+        else if (cmd === '786') {
+            response.innerHTML = "<span style='color: #d4af37;'>[REDIRECTING] Accessing Digital 786...</span>";
+            setTimeout(() => window.location.href = 'modules/digital786/index.html', 1500);
+        }
+        else if (cmd === 'clear') {
+            output.innerHTML = '';
+            return;
+        }
+        else {
+            response.innerHTML = "<span style='color: red;'>[ERROR] Unauthorized Command. Type 'help'.</span>";
+        }
+        
+        output.appendChild(response);
+        output.scrollTop = output.scrollHeight;
     }
 
-    function processCommand(cmd) {
-        let response = "";
-
-        if (cmd === 'help') {
-            response = "Commands: status, 786, clear";
-        } else if (cmd === 'status') {
-            response = "SYSTEM: ONLINE | ENCRYPTION: ACTIVE";
-        } else if (cmd === '786') {
-            response = "Redirecting to Digital 786...";
-            setTimeout(() => {
-                window.location.href = 'modules/digital786/index.html';
-            }, 1000);
-        } else if (cmd === 'clear') {
-            terminalOutput.innerHTML = '';
-            return;
-        } else {
-            response = "Error: Unknown Command";
-        }
-
-        const respLine = document.createElement('p');
-        respLine.innerHTML = response;
-        terminalOutput.appendChild(respLine);
+    function startMatrixEffect() {
+        let count = 0;
+        let interval = setInterval(() => {
+            let line = document.createElement('p');
+            line.style.color = "#0f0";
+            line.style.fontSize = "10px";
+            line.innerText = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+            count++;
+            if (count > 20) clearInterval(interval);
+        }, 100);
     }
 });
-
