@@ -3,46 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DG Universe | Nexus Command Center</title>
-    
-    <meta name="description" content="DG Universe - The Hub of Alpha-Omega Quantum Portfolio and Digital 786 Archives.">
-    <meta name="keywords" content="DG Universe, Digital 786, Quantum Portfolio, Web Development">
-    <meta name="author" content="Rana G">
+    <title>DG-UNIVERSE | NEXUS COMMAND</title>
+    <style>
+        /* Base Styling */
+        body {
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    <link rel="stylesheet" href="components/style.css">
+        /* Matrix Background Effect */
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.3; }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 2px solid #0f0;
+            width: 100%;
+            box-shadow: 0 0 15px #0f0;
+        }
+
+        .terminal-box {
+            background: rgba(0, 20, 0, 0.9);
+            border: 1px solid #0f0;
+            width: 90%;
+            max-width: 800px;
+            margin: 20px;
+            padding: 15px;
+            height: 200px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 10px #000;
+        }
+
+        /* Modules Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            width: 90%;
+            margin-top: 30px;
+        }
+
+        /* Module 1: Digital 786 (Gold) */
+        .card-gold {
+            border: 2px solid #ffd700;
+            background: rgba(255, 215, 0, 0.05);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .card-gold:hover { box-shadow: 0 0 20px #ffd700; transform: translateY(-5px); }
+        .btn-gold { 
+            background: #ffd700; color: #000; border: none; padding: 10px 20px; 
+            cursor: pointer; font-weight: bold; margin-top: 10px;
+        }
+
+        /* Module 2: Quantum (Neon Blue) */
+        .card-blue {
+            border: 2px solid #00d4ff;
+            background: rgba(0, 212, 255, 0.05);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .card-blue:hover { box-shadow: 0 0 20px #00d4ff; transform: translateY(-5px); }
+        .btn-blue { 
+            background: #00d4ff; color: #000; border: none; padding: 10px 20px; 
+            cursor: pointer; font-weight: bold; margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 
-    <div id="nexus-header">
-        <h1 class="glitch-text">NEXUS COMMAND CENTER v2.0</h1>
-        <div class="status-bar">
-            <span class="pulse">●</span> System: Online | Connection: Quantum Secured
+    <canvas id="matrix"></canvas>
+
+    <header>
+        <h1>DG-UNIVERSE v2.0</h1>
+        <p>SYSTEM HIERARCHY: ACTIVE</p>
+    </header>
+
+    <div class="terminal-box" id="terminal">
+        <p>> Initializing Onyx Protocol...</p>
+        <p>> Loading Security Modules...</p>
+        <p>> System Ready. Authorized Access Only.</p>
+    </div>
+
+    <div class="grid-container">
+        <div class="card-gold">
+            <h2 style="color: #ffd700;">DIGITAL DIARY 786</h2>
+            <p>Secure Vault & Personal Legacy Protocols.</p>
+            <button class="btn-gold" onclick="window.location.href='modules/digital786/index.html'">ACCESS VAULT</button>
+        </div>
+
+        <div class="card-blue">
+            <h2 style="color: #00d4ff;">ALPHA-OMEGA QUANTUM</h2>
+            <p>Neural Link & High-Speed Data Stream.</p>
+            <button class="btn-blue" onclick="window.location.href='modules/quantum/index.html'">EXECUTE CORE</button>
         </div>
     </div>
 
-    <div class="terminal-wrapper">
-        <div class="terminal-header">Terminal Access: User@DG-Universe</div>
-        <input type="text" id="command-line" placeholder="Type 'help' for commands..." autofocus>
-    </div>
+    <script>
+        // Simple Matrix Effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
 
-    <div id="portfolio-container">
-        <div class="project-card" data-name="digital786">
-            <div class="card-glow"></div>
-            <h3>Digital 786</h3>
-            <p>Main Hub for digital services and archives.</p>
-            <button class="launch-btn" onclick="window.location.href='modules/digital786/index.html'">Execute</button>
-        </div>
-        
-        <div class="project-card" data-name="quantum">
-            <div class="card-glow"></div>
-            <h3>Alpha-Omega Quantum</h3>
-            <p>Advanced quantum-themed portfolio interface.</p>
-            <button class="launch-btn" onclick="alert('Quantum Interface Loading...')">Execute</button>
-        </div>
-    </div>
-
-    <div id="terminal-output"></div>
-
-    <script src="components/script.js"></script>
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0f0";
+            ctx.font = fontSize + "px arial";
+            drops.forEach((y, i) => {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, y * fontSize);
+                if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+        setInterval(draw, 33);
+    </script>
 </body>
 </html>
