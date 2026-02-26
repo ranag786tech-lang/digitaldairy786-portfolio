@@ -1,28 +1,41 @@
-# 🌌 DG Universe: Alpha-Omega Quantum Portfolio
-**Status:** `ONLINE` | **Version:** `1.0.0` | **System:** `Nexus Command`
-
-Welcome to the central hub of **DG Universe**. This is a unified digital ecosystem that merges the **Digital 786** archives with the **Quantum Portfolio** interface.
+# 🌌 DG-UNIVERSE | NEXUS COMMAND CENTER v2.0
+**Status:** System Online 🟢 | **Core:** Quantum Alpha-Omega
 
 ---
 
-## 🚀 Project Overview
-This project is built to showcase a futuristic, command-line driven interface combined with a modern portfolio layout. 
-
-### 🛠️ Key Features:
-* **Nexus Command Interface:** A terminal-style header for quick navigation.
-* **Quantum Grid:** A responsive display of all sub-projects (Digital 786, Alpha-Omega).
-* **Zero-Error Architecture:** Simplified file hierarchy for seamless **GitHub Pages** hosting.
-
----
-
-## 📂 System Hierarchy (Folder Structure)
-
-Below is the organized structure of this repository:
+## 🛠️ System Hierarchy
+Onyx-Protocol operational. All modules are sandboxed and encrypted.
 
 ```text
-DG-Universe/
-├── index.html          # Main Entry Point (Nexus + Portfolio)
-├── style.css           # Custom Quantum Styling (Coming Soon)
-├── script.js           # Nexus Command Logic (Coming Soon)
-├── assets/             # Project Images, Icons, and Logos
-└── README.md           # System Documentation (You are here)
+root@DG-universe:~# tree -L 2
+.
+├── index.html           # Main Terminal Interface
+├── assets/              # Global Assets (Sounds/Gfx)
+└── modules/
+    ├── digital786/      # Gold Theme Protocol
+    └── quantum/         # Neon Blue Glassmorphism Core
+```
+
+---
+
+## 🚀 Active Modules
+
+### 🕋 Digital 786 (Legacy)
+* **Theme:** Royal Gold & Obsidian
+* **Purpose:** Encryption & Personal Archives
+
+### ⚛️ Alpha-Omega Quantum
+* **Theme:** Neon Blue & Glassmorphism
+* **Purpose:** Neural Link Simulation & High-Speed Data
+
+---
+
+## ⌨️ Terminal Commands
+Type these in the main console:
+* `help` - Show all protocols
+* `hack --all` - Initiate Matrix Override
+* `status` - Check System Vitals
+
+---
+**Developed by:** [RanaG786](https://github.com/ranag786tech-lang)
+*Authorized Access Only.*
