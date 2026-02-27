@@ -79,6 +79,19 @@
             background: #00d4ff; color: #000; border: none; padding: 10px 20px; 
             cursor: pointer; font-weight: bold; margin-top: 10px;
         }
+        .card-sovereign {
+            border: 2px solid #c0c0c0;
+            background: rgba(192, 192, 192, 0.05);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .card-sovereign:hover { box-shadow: 0 0 20px #00d4ff; transform: translateY(-5px); }
+        .btn-sovereign {
+            background: #c0c0c0; color: #000; border: none; padding: 10px 20px;
+            cursor: pointer; font-weight: bold; margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -97,6 +110,11 @@
     </div>
 
     <div class="grid-container">
+        <div class="card-sovereign">
+            <h2 style="color: #c0c0c0;">DigiD CENTRAL</h2>
+            <p>The Sovereign Architect: Celestial Blueprint.</p>
+            <button class="btn-sovereign" onclick="window.location.href='modules/digid-central/index.html'">ENTER NEXUS</button>
+        </div>
         <div class="card-gold">
             <h2 style="color: #ffd700;">DIGITAL DIARY 786</h2>
             <p>Secure Vault & Personal Legacy Protocols.</p>
